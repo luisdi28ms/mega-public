@@ -4,7 +4,7 @@ title: '#4471 · three problems, one ticket'
 owner: Luis
 status: open
 reviewed: 2026-10-28
-signature: Luis
+signature: v1.eyJzdWIiOiI0OTQ2IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyNTAwMzcsImV4cCI6MTc5MzMzNjQzN30.0LCuD3fktoKqnrf1kxwKJ4wXiYC94JfyvtfZv3EJ58c
 ---
 
 <script>
