@@ -1,0 +1,56 @@
+---
+layout: runbook
+title: '#4471 · three problems, one ticket'
+owner: Luis
+status: open
+reviewed: 2026-10-28
+signature: Luis
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+
+  const repo = 'https://github.com/luisdi28ms/mega-public/issues';
+  const issues = { parser: `${repo}/1`, hint: `${repo}/2`, 'one-day move': `${repo}/3` };
+</script>
+
+[#4471](/kb/incidents/4471) says one issue, one fix queued. Its reports say otherwise. The desk
+merged them by subject line ([decision 0001](/kb/decisions/0001-dedupe-by-subject)), and a
+subject line like "Wrong day on the invite" fits three different bugs.
+
+<Callout kind="warn">
+The queued fix is for the parser. It does not fix the form hint or the one-day move. Those reports
+stay open after #4471 closes.
+</Callout>
+
+## What #4471 holds
+
+<ProblemTable ticket={4471} {issues} />
+
+## The three problems
+
+- **`parser`**: the shared parser reads every date month first. A tenant whose locale writes the day
+  first gets the day and month swapped: 7 April becomes 4 July. Any channel.
+- **`hint`**: the booking-v3 form prints `MM/DD/YYYY` under its date field, then reads the date the
+  tenant's way, day first. People type what the hint tells them and the date swaps. Only the form
+  channel, only booking-v3 tenants. The parser fix does not touch it.
+- **`one-day move`**: the date moves by one day, not by month. Monday instead of Tuesday, an invite
+  before its booking, Lisbon and Toronto on different days, "only June". That reads as a time zone
+  or summer-time bug. The desk had these flagged in its notes and still counted them as `parser`.
+
+## How the reports are placed
+
+By the tenant, not by the subject and not by intake's tag. Intake tags `hint` when the reporter's
+browser is `en-US`; that is a guess about the person, not the form. The tenant directory says which
+locale and which booking form each tenant runs, and `src/lib/kb/problems.ts` places each report from
+that and the desk's notes. The table above runs it on every build, so new reports land in the right
+row without anyone editing this page.
+
+## Lessons
+
+- A shared subject is not a shared cause. Merge on what broke, not on what people wrote.
+- A note that says "these are different" belongs in the count, not in a footnote under it.
+
+<RenderStamp {signature} />
